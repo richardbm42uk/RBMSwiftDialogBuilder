@@ -1,0 +1,238 @@
+{
+  "title": "com.rbm.swiftdialogbuild",
+  "description": "Swift Dialog Build",
+  "__version": "1.0",
+  "type": "object",
+  "options": {
+    "remove_empty_properties": true
+  },
+  "definitions": {
+    "policy_group": {
+      "type": "object",
+      "format": "grid",
+      "options": {
+        "collapsed": true,
+        "disable_properties": true
+      }
+    }
+  },
+  "properties": {
+    "appearance": {
+      "title": "Dialog Appearance",
+      "description": "Text and Icons for Dialog",
+      "property_order": 10,
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "title": "Title Text",
+          "description": "Title for Dialog Box",
+          "default": "Setting Up your Mac..."
+        },
+        "message": {
+          "type": "string",
+          "title": "Message",
+          "description": "Text for Dialog Box",
+          "default": "Getting your computer ready to use and installing apps..."
+        },
+        "dialogIcon": {
+          "type": "string",
+          "title": "Dialog Box Icon",
+          "description": "Icon for Dialog Box. Path, URL or SF symbol"
+        },
+        "titlebanner": {
+          "title": "Title Banner",
+          "description": "Optional Banner settings",
+          "anyOf": [
+            {
+              "type": "null",
+              "title": "No Banner"
+            },
+            {
+              "type": "object",
+              "title": "Banner Settings",
+              "properties": {
+                "bannerimage": {
+                  "title": "Image Path",
+                  "description": "Path or URL. JPEG or PNG format",
+                  "type": "string"
+                },
+                "titleOnBanner": {
+                  "title": "Title on Banner",
+                  "description": "Overlay Title text over Banner",
+                  "type": "boolean"
+                },
+                "titlecolour": {
+                  "title": "Title Colour",
+                  "description": "Colour for Title Text, colour name or HEX",
+                  "anyOf": [
+                    {
+                      "type": "null",
+                      "title": "Black"
+                    },
+                    {
+                      "type": "string",
+                      "title": "Title Colour"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "fullscreen": {
+          "type": "boolean",
+          "title": "Fullscreen",
+          "default": "false",
+          "description": "Run the dialog in fullscreen to prevent user working during build"
+        },
+        "genericIcon": {
+          "type": "string",
+          "title": "Generic List Icon",
+          "description": "Path or URL to use for install items without an icon specified",
+          "default": "/System/Library/PrivateFrameworks/MobileIcons.framework/Versions/A/Resources/DefaultIcon-60@2x~iphone.png"
+        }
+      }
+    },
+    "installList": {
+      "title": "List of Items to be Installed",
+      "description": "Installed items to show in the Dialog",
+      "property_order": 20,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "title": "Name",
+            "description": "Item name as displayed on list",
+            "type": "string",
+            "default": "Application"
+          },
+          "path": {
+            "title": "Completion Path",
+            "description": "Path to validate item has completed",
+            "type": "string",
+            "default": "/Applications/Application.app"
+          },
+          "jamfPolicy": {
+            "title": "Item is installed by Jamf Policy",
+            "description": "Custom Trigger for Policy",
+            "default": "installApp",
+            "anyOf": [
+              {
+                "type": "null",
+                "title": "Item installed via Jamf Catalog or Mac App Store"
+              },
+              {
+                "title": "Item Installed with Custom Policy Trigger",
+                "type": "string"
+              }
+            ]
+          },
+          "iconPath": {
+            "title": "Icon Path (Optional)",
+            "description": "File Path or URL for icon to display in list",
+            "default": "/Library/Management/Icons/App.png",
+            "anyOf": [
+              {
+                "type": "null",
+                "title": "Use Default Icon"
+              },
+              {
+                "title": "Path to Icon",
+                "type": "string"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "misc": {
+      "title": "Misc Options",
+      "description": "Additional Configuration",
+      "property_order": 30,
+      "type": "object",
+      "properties": {
+        "exitAction": {
+          "type": "string",
+          "title": "Exit Action",
+          "description": "Action to Perform after Build Process completes",
+          "default": "Quit",
+          "enum": [
+            "Quit",
+            "Restart",
+            "Shut Down",
+            "Log Out"
+          ]
+        },
+        "timeout": {
+          "type": "integer",
+          "title": "TimeOut",
+          "description": "Maximum Time in Seconds before timing out",
+          "default": 1800
+        },
+        "waitToClose": {
+          "type": "integer",
+          "title": "Wait before automatically closing",
+          "description": "Time in Seconds that build dialog will stay open after build completes before exit action",
+          "default": 60
+        }
+      }
+    },
+    "cleanup": {
+      "title": "Cleanup",
+      "description": "Optional Clean-up settings",
+      "property_order": 50,
+      "type": "object",
+      "properties": {
+        "cleanUpPolicy": {
+          "title": "Run Policy at Cleanup",
+          "description": "Perform any outstanding Jamf Policies due at checkin during the cleanup phase",
+          "type": "boolean",
+          "default": true
+        },
+        "cleanUpRecon": {
+          "title": "Update Inventory at Cleanup",
+          "description": "Perform a final Inventory update during the cleanup phase",
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "buidFlags": {
+      "title": "Build Flags",
+      "description": "Optional Build Record preference file",
+      "property_order": 60,
+      "type": "object",
+      "properties": {
+        "buildFlag": {
+          "title": "Write Build Preference",
+          "description": "Write a Preference file to track if build completed on client Mac",
+          "anyOf": [
+            {
+              "type": "null",
+              "title": "No Build File"
+            },
+            {
+              "type": "object",
+              "title": "Create Build File",
+              "properties": {
+                "buildFlagPath": {
+                  "title": "Preference Path",
+                  "description": "Path for preference file to track if build completed on client Mac",
+                  "type": "string",
+                  "default": "/Library/Preferences/com.rbm.swiftdialogbuild.plist"
+                },
+                "buildName": {
+                  "title": "Build Name",
+                  "description": "Name record in preference file to track which Build profile was used",
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
