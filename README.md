@@ -1,5 +1,7 @@
 # RBM SwiftDialog Builder
 
+![Screen Shot](https://github.com/richardbm42uk/RBMSwiftDialogBuilder/blob/4b9d9a82f66349750a947fc9f238bfd7d95a7048/screenshot.png?raw=true)
+
 Yet another script to configure Mac build processes using Jamf Pro and a graphical front-end with SwiftDialog.
 
 ## Why Bother?
